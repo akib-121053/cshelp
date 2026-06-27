@@ -1,0 +1,16 @@
+{
+  "short_name": "CyberDict",
+  "name": "CyberSec Dictionary — সাইবার নিরাপত্তা অভিধান",
+  "description": "৮০/২০ নীতিতে A-Z সাইবার সিকিউরিটি শব্দভাণ্ডার",
+  "icons": [
+    { "src": "favicon.ico", "sizes": "64x64 32x32 24x24 16x16", "type": "image/x-icon" },
+    { "src": "logo192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "logo512.png", "type": "image/png", "sizes": "512x512" }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#00ff88",
+  "background_color": "#030712",
+  "orientation": "portrait-primary",
+  "categories": ["education", "security", "reference"]
+}
